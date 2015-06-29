@@ -28,15 +28,15 @@ function getLocalIPs(callback) {
 }
 
 chrome.tabs.getSelected(null, function (tab) {
-  // http://qr.liantu.com/api.php?text=url&fg=ff6600&el=l&w=200&m=5
-  // https://chart.googleapis.com/chart?cht=qr&chs=200x200&choe=UTF-8&chld=Q|0&chl=url
+  // http://qr.liantu.com/api.php?fg=ff6600&el=l&w=233&m=0&
+  // https://chart.googleapis.com/chart?cht=qr&chs=233x233&choe=UTF-8&chld=L|0&chl=
 
   var qr   = document.querySelector('#qr');
   var url  = new URL(tab.url);
 
   function showQr(url) {
-    var href = 'http://qr.liantu.com/api.php?fg=ff6600&el=l&w=233&m=0&';
-    href += 'text=' + encodeURIComponent(url) + '&t=' + Math.random();
+    var href = 'https://chart.googleapis.com/chart?cht=qr&chs=233x233&choe=UTF-8&chld=L|0&chl=';
+    href += encodeURIComponent(url) + '&t=' + Math.random();
 
     qr.src = href;
   }
