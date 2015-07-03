@@ -6,7 +6,7 @@
 
 ![](http://i.imgur.com/yl1ebDR.png)
 
-====
+----
 
 感谢：
 
