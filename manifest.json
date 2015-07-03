@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Simple QRCode",
-  "version": "1.0.3",
+  "name": "Colorful QRCode",
+  "version": "1.0.1",
   "permissions": [
     "tabs"
   ],
@@ -10,7 +10,6 @@
     "default_popup": "popup.html"
   },
   "icons": {
-    "128": "icon_128.png",
-    "32": "icon_32.png"
+    "128": "icon_128.png"
   }
 }
