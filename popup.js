@@ -31,14 +31,24 @@ chrome.tabs.getSelected(null, function (tab) {
   // http://qr.liantu.com/api.php?fg=ff6600&el=l&w=233&m=0&
   // https://chart.googleapis.com/chart?cht=qr&chs=233x233&choe=UTF-8&chld=L|0&chl=
 
-  var qr   = document.querySelector('#qr');
-  var url  = new URL(tab.url);
+  var url    = new URL(tab.url);
+  var qr     = document.getElementById("qr");
+  var qrcode = new QRCode(qr, {
+    width       : 240,
+    height      : 240,
+    //colorDark : "#008B8B",
+    colorDark   : randomColor({
+      luminosity: 'bright'
+    }),
+    colorLight  : "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
 
   function showQr(url) {
-    var href = 'https://chart.googleapis.com/chart?cht=qr&chs=233x233&choe=UTF-8&chld=L|0&chl=';
-    href += encodeURIComponent(url) + '&t=' + Math.random();
+    //var href = 'https://chart.googleapis.com/chart?cht=qr&chs=233x233&choe=UTF-8&chld=L|0&chl=';
+    //href += encodeURIComponent(url) + '&t=' + Math.random();
 
-    qr.src = href;
+    qrcode.makeCode(url);
   }
 
   switch (url.host) {

@@ -1,13 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "简单QR生成器",
+  "name": "Simple QRCode",
   "version": "1.0.3",
   "permissions": [
     "tabs"
   ],
-  "background": {
-    "scripts": ["background.js"]
-  },
   "browser_action": {
     "default_icon": "icon_32.png",
     "default_popup": "popup.html"
@@ -15,6 +12,5 @@
   "icons": {
     "128": "icon_128.png",
     "32": "icon_32.png"
-  },
-  "update_url": "https://clients2.google.com/service/update2/crx"
+  }
 }
