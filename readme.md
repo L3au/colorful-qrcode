@@ -1,4 +1,4 @@
-![](http://i.imgur.com/A5fvCIV.png)Colorful-QRCode
+![](http://i.imgur.com/9QCt6D6.png)  Colorful-QRCode
 ====
 > Logo一点不像ms office好嘛，颜色来自Google logo。。
 
