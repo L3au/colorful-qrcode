@@ -1,15 +1,18 @@
-chrome.tabs.getSelected(null, function (tab) {
-  var url    = new URL(tab.url);
-  var qr     = document.getElementById("qr");
-  var qrcode = new QRCode(qr, {
+chrome.tabs.query({
+  active       : true,
+  currentWindow: true
+}, function (tabs) {
+  var url = tabs[0].url;
+  var qr  = document.getElementById("qr");
+
+  new QRCode(qr, {
+    text        : url,
     width       : 240,
     height      : 240,
     colorDark   : randomColor({
       luminosity: 'bright'
     }),
     colorLight  : "#ffffff",
-    correctLevel: QRCode.CorrectLevel.M
+    correctLevel: QRCode.CorrectLevel.L
   });
-
-  qrcode.makeCode(url);
 });
