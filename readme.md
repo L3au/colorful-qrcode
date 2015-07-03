@@ -1,4 +1,4 @@
-![](http://ww2.sinaimg.cn/large/0060lm7Tjw1etpx3o2z3bj301g01gjr7.jpg)Colorful-QRCode
+![](http://i.imgur.com/A5fvCIV.png)Colorful-QRCode
 ====
 > Logo一点不像ms office好嘛，颜色来自Google logo。。
 
