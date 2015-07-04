@@ -4,7 +4,7 @@
 
 [Chrome WebStore](https://chrome.google.com/webstore/detail/nenelpicledkmgnlaibhjkjobffpjoan/)
 
-![](http://i.imgur.com/yl1ebDR.png)
+![](http://i.imgur.com/cSOmAQq.png)
 
 ----
 
