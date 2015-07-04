@@ -18,6 +18,9 @@ chrome.tabs.query({
     correctLevel: QRCode.CorrectLevel.L
   });
 
+  txt.value = url;
+  qr.querySelector('canvas').remove();
+
   img = qr.querySelector('img');
   img.addEventListener('click', function () {
     img.className = 'hide';
@@ -45,6 +48,8 @@ chrome.tabs.query({
       img.className = 'hide';
 
       txt.style.display = 'block';
+
+      txt.value = txt.value.trim();
       txt.select();
     }
   });
