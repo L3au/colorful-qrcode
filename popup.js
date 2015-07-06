@@ -28,7 +28,7 @@ chrome.tabs.query({
     width: 240,
     height: 240,
     colorDark: randomColor({
-      luminosity: 'bright'
+      luminosity: 'dark'
     }),
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.L
