@@ -28,11 +28,11 @@ function getLocalIPs(callback) {
 }
 
 chrome.tabs.query({
-  active: true,
+  active       : true,
   currentWindow: true
-}, function(tabs) {
+}, function (tabs) {
   var url = tabs[0].url;
-  var qr = document.getElementById("qr");
+  var qr  = document.getElementById("qr");
   var txt = qr.querySelector('textarea');
   var img, qrcode;
 
@@ -56,7 +56,11 @@ chrome.tabs.query({
   }
 
   function showQr(url) {
-    url = new URL(url);
+    try {
+      url = new URL(url);
+    } catch (e) {
+      return qrcode.makeCode(url);
+    }
 
     switch (url.host) {
       case 'sync.wacai.com':
@@ -90,10 +94,10 @@ chrome.tabs.query({
     }
 
     qrcode = new QRCode(qr, {
-      width: 240,
-      height: 240,
-      colorDark: color,
-      colorLight: "#ffffff",
+      width       : 240,
+      height      : 240,
+      colorDark   : color,
+      colorLight  : "#ffffff",
       correctLevel: QRCode.CorrectLevel.L
     });
 
