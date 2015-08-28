@@ -3,9 +3,14 @@
 
 ![](http://i.imgur.com/cSOmAQq.png)
 
-### Install
-
 ### [Chrome WebStore](https://chrome.google.com/webstore/detail/nenelpicledkmgnlaibhjkjobffpjoan/)
+
+----
+
+**2015-8-28 更新**
+
+- 修复手动输入字符时换行，按住`shift`或`ctrl`时回车可换行
+- 增加`localhost`自动转换成局域网IP，如`localhost:2333`扫描后打开`192.168.11.119:2333`
 
 ----
 
