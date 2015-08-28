@@ -2,7 +2,7 @@ var check = document.querySelector('input');
 
 function setBrowserAction (isBlack) {
   chrome.browserAction.setIcon({
-    path: isBlack ? 'icon-black.png' : 'icon.png'
+    path: isBlack ? 'icon/icon-black.png' : 'icon/icon.png'
   });
 
   chrome.browserAction.setTitle({
