@@ -1,59 +1,66 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="author" content="L3au">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Colorful QRCode</title>
 <style>
-  body {
-    margin: 0;
-  }
+    body {
+        margin: 0;
+    }
 
-  #qr {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    padding: 5px;
-    box-sizing: border-box;
-  }
+    #qr {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        padding: 5px;
+        box-sizing: border-box;
+    }
 
-  #qr > img {
-    transition: 233ms ease-in-out;
-  }
+    #qr.loading {
+        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJ0cmFuc3BhcmVudCIgc3Ryb2tlLXdpZHRoPSIwIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAsMjApIj48ZyBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlPSJyZ2IoMCwgMCwgMCkiIG9wYWNpdHk9IjEiPjxnPjxsaW5lIHgxPSIwIiB5MT0iMTAiIHgyPSIwIiB5Mj0iMTYiIHRyYW5zZm9ybT0icm90YXRlKDAsIDAsIDApIi8+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgdmFsdWVzPSIwLjE3NTswLjE7MTswLjE3NSIga2V5VGltZXM9IjA7MC4wODMzMzMzMzMzMzMzOzAuMDgzMzMzMzMzMzMzMzsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPjwvZz48Zz48bGluZSB4MT0iMCIgeTE9IjEwIiB4Mj0iMCIgeTI9IjE2IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCwgMCwgMCkiLz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvcGFjaXR5IiB2YWx1ZXM9IjAuMjU7MC4xOzE7MC4yNSIga2V5VGltZXM9IjA7MC4xNjY2NjY2NjY2Njc7MC4xNjY2NjY2NjY2Njc7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PGc+PGxpbmUgeDE9IjAiIHkxPSIxMCIgeDI9IjAiIHkyPSIxNiIgdHJhbnNmb3JtPSJyb3RhdGUoNjAsIDAsIDApIi8+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgdmFsdWVzPSIwLjMyNTswLjE7MTswLjMyNSIga2V5VGltZXM9IjA7MC4yNTswLjI1OzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9nPjxnPjxsaW5lIHgxPSIwIiB5MT0iMTAiIHgyPSIwIiB5Mj0iMTYiIHRyYW5zZm9ybT0icm90YXRlKDkwLCAwLCAwKSIvPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9wYWNpdHkiIHZhbHVlcz0iMC40OzAuMTsxOzAuNCIga2V5VGltZXM9IjA7MC4zMzMzMzMzMzMzMzM7MC4zMzMzMzMzMzMzMzM7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PGc+PGxpbmUgeDE9IjAiIHkxPSIxMCIgeDI9IjAiIHkyPSIxNiIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwLCAwLCAwKSIvPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9wYWNpdHkiIHZhbHVlcz0iMC40NzU7MC4xOzE7MC40NzUiIGtleVRpbWVzPSIwOzAuNDE2NjY2NjY2NjY3OzAuNDE2NjY2NjY2NjY3OzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9nPjxnPjxsaW5lIHgxPSIwIiB5MT0iMTAiIHgyPSIwIiB5Mj0iMTYiIHRyYW5zZm9ybT0icm90YXRlKDE1MCwgMCwgMCkiLz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvcGFjaXR5IiB2YWx1ZXM9IjAuNTU7MC4xOzE7MC41NSIga2V5VGltZXM9IjA7MC41OzAuNTsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPjwvZz48Zz48bGluZSB4MT0iMCIgeTE9IjEwIiB4Mj0iMCIgeTI9IjE2IiB0cmFuc2Zvcm09InJvdGF0ZSgxODAsIDAsIDApIi8+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgdmFsdWVzPSIwLjYyNTswLjE7MTswLjYyNSIga2V5VGltZXM9IjA7MC41ODMzMzMzMzMzMzM7MC41ODMzMzMzMzMzMzM7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PGc+PGxpbmUgeDE9IjAiIHkxPSIxMCIgeDI9IjAiIHkyPSIxNiIgdHJhbnNmb3JtPSJyb3RhdGUoMjEwLCAwLCAwKSIvPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9wYWNpdHkiIHZhbHVlcz0iMC43OzAuMTsxOzAuNyIga2V5VGltZXM9IjA7MC42NjY2NjY2NjY2Njc7MC42NjY2NjY2NjY2Njc7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PGc+PGxpbmUgeDE9IjAiIHkxPSIxMCIgeDI9IjAiIHkyPSIxNiIgdHJhbnNmb3JtPSJyb3RhdGUoMjQwLCAwLCAwKSIvPjxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9wYWNpdHkiIHZhbHVlcz0iMC43NzU7MC4xOzE7MC43NzUiIGtleVRpbWVzPSIwOzAuNzU7MC43NTsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPjwvZz48Zz48bGluZSB4MT0iMCIgeTE9IjEwIiB4Mj0iMCIgeTI9IjE2IiB0cmFuc2Zvcm09InJvdGF0ZSgyNzAsIDAsIDApIi8+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgdmFsdWVzPSIwLjg1OzAuMTsxOzAuODUiIGtleVRpbWVzPSIwOzAuODMzMzMzMzMzMzMzOzAuODMzMzMzMzMzMzMzOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9nPjxnPjxsaW5lIHgxPSIwIiB5MT0iMTAiIHgyPSIwIiB5Mj0iMTYiIHRyYW5zZm9ybT0icm90YXRlKDMwMCwgMCwgMCkiLz48YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJvcGFjaXR5IiB2YWx1ZXM9IjAuOTI1OzAuMTsxOzAuOTI1IiBrZXlUaW1lcz0iMDswLjkxNjY2NjY2NjY2NzswLjkxNjY2NjY2NjY2NzsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIvPjwvZz48Zz48bGluZSB4MT0iMCIgeTE9IjEwIiB4Mj0iMCIgeTI9IjE2IiB0cmFuc2Zvcm09InJvdGF0ZSgzMzAsIDAsIDApIi8+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgdmFsdWVzPSIxLjA7MC4xOzE7MS4wIiBrZXlUaW1lcz0iMDsxLjA7MS4wOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+PC9nPjwvZz48L2c+PC9zdmc+) center no-repeat;
+        background-size: 25px;
+    }
 
-  #qr > .hide {
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(.88);
-  }
+    #qr > img {
+        transition: 233ms ease-in-out;
+    }
 
-  #txt {
-    display: none;
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    width: 240px;
-    height: 240px;
-    padding: .4em .5em;
-    font-family: Lato, Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.467;
-    color: #34495E;
-    border: 2px solid #BDC3C7;
-    border-radius: 4px;
-    box-shadow: none;
-    outline: none;
-    box-sizing: border-box;
-    background-color: #FFF;
-    resize: none;
-    transition: 233ms linear;
-  }
-  #txt:focus {
-    outline: 0;
-    border-color: #1ABC9C;
-  }
+    #qr > .hide {
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(.88);
+    }
+
+    #txt {
+        display: none;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        width: 240px;
+        height: 240px;
+        padding: .4em .5em;
+        font-family: Lato, Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.467;
+        color: #34495E;
+        border: 2px solid #BDC3C7;
+        border-radius: 4px;
+        box-shadow: none;
+        outline: none;
+        box-sizing: border-box;
+        background-color: #FFF;
+        resize: none;
+        transition: 233ms linear;
+    }
+
+    #txt:focus {
+        outline: 0;
+        border-color: #1ABC9C;
+    }
 </style>
 <div id="qr">
-  <textarea id="txt" placeholder="输入后回车生成"></textarea>
+    <textarea id="txt" placeholder="输入后回车生成"></textarea>
 </div>
-<script src="qrcode.min.js"></script>
-<script src="randomColor.min.js"></script>
+<script src="lib/qrcode.min.js"></script>
+<script src="lib/randomColor.min.js"></script>
 <script src="popup.js"></script>
