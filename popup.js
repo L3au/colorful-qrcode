@@ -2,7 +2,7 @@
 function getLocalIPs() {
     var ips   = [];
     var defer = Promise.defer();
-    var IPV4 = /((25[0-5]|2[0-4][0-9]|1?[0-9][0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3})/;
+    var IPV4 = /\b(25[0-5]|2[0-4][0-9]|1?[0-9][0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3}\b/;
 
     var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
 
