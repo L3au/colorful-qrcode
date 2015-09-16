@@ -2,6 +2,7 @@
 function getLocalIPs() {
     var ips   = [];
     var defer = Promise.defer();
+    var IPV4 = /((25[0-5]|2[0-4][0-9]|1?[0-9][0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3})/;
 
     var RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
 
@@ -17,9 +18,10 @@ function getLocalIPs() {
             return;
         }
 
-        var ip = /^candidate:.+ (\S+) \d+ typ/.exec(e.candidate.candidate)[1];
-        if (ips.indexOf(ip) == -1) {
-            ips.push(ip);
+        var ret = IPV4.exec(e.candidate.candidate);
+
+        if (ret && ips.indexOf(ret[0]) === -1) {
+            ips.push(ret[0]);
         }
     };
     rtc.createOffer(function (sdp) {
@@ -75,7 +77,10 @@ chrome.tabs.query({
         // localhost replace with local ip
         if (ips) {
             localIp = ips[0];
-            text    = url.replace('localhost', localIp);
+
+            if (localIp) {
+                text    = url.replace('localhost', localIp);
+            }
         } else {
             getLocalIPs().then(function (ips) {
                 localIp = ips[0];
@@ -139,7 +144,7 @@ chrome.tabs.query({
             text = val;
         }
 
-        if (hostname(text) == 'localhost') {
+        if (hostname(text) == 'localhost' && localIp) {
             text = text.replace('localhost', localIp);
         }
 
