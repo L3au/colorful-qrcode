@@ -87,6 +87,9 @@ chrome.tabs.query({
             });
         }
 
+        // rewrite url
+        txt.value = text;
+
         qrcode = new QRCode(qr, {
             text        : text,
             width       : 240,
@@ -148,6 +151,7 @@ chrome.tabs.query({
             text = text.replace('localhost', localIp);
         }
 
+        txt.value = text;
         qrcode.makeCode(text);
 
         txt.style.display = 'none';
