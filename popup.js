@@ -129,7 +129,7 @@ chrome.tabs.query({
         var host;
 
         try {
-            host = new (window.URL || windowwebkitURL)(href).hostname;
+            host = new (window.URL || window.webkitURL)(href).hostname;
         } catch (e) {
 
         }
