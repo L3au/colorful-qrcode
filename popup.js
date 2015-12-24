@@ -130,11 +130,16 @@ chrome.tabs.query({
 
         try {
             host = new (window.URL || window.webkitURL)(href).hostname;
-        } catch (e) {
-
-        }
+        } catch (e) {}
+        
         return host;
     }
+
+    var localHosts = [
+        'localhost',
+        '127.0.0.0',
+        '0.0.0.0'
+    ];
 
     function showMain() {
         var text;
@@ -147,7 +152,7 @@ chrome.tabs.query({
             text = val;
         }
 
-        if (hostname(text) == 'localhost' && localIp) {
+        if (localIp && localHosts.indexOf(hostname(text)) > -1) {
             text = text.replace('localhost', localIp);
         }
 
