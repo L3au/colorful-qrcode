@@ -7,6 +7,10 @@
 
 ----
 
+**2016-3-12**
+
+- 修复chrome升级49版本后localhost地址获取问题，[原因](https://developers.google.com/web/updates/2016/02/chrome-49-deprecations?hl=en#error-and-success-handlers-required-in-rtcpeerconnection-methods)
+
 **2015-11-23**
 
 - 输入框展示本地IP地址，方便复制或修改
@@ -15,7 +19,7 @@
 
 - 修复获取本地IPV4地址bug
 
-**2015-8-28 更新**
+**2015-8-28**
 
 - 修复手动输入字符时换行，按住`shift`或`ctrl`时回车可换行
 - 增加`localhost`自动转换成本地IP，如`localhost:2333`扫描后打开如`192.168.11.119:2333`
