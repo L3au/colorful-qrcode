@@ -26,6 +26,8 @@ function getLocalIPs() {
     };
     rtc.createOffer(function (sdp) {
         rtc.setLocalDescription(sdp);
+    }, function (err) {
+        console.log(err);
     });
 
     return defer.promise;
@@ -131,7 +133,7 @@ chrome.tabs.query({
         try {
             host = new (window.URL || window.webkitURL)(href).hostname;
         } catch (e) {}
-        
+
         return host;
     }
 
