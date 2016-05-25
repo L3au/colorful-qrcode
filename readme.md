@@ -7,6 +7,10 @@
 
 ----
 
+**2016-5-25**
+
+- 修复 Chorme Dev 版本 `Promise.defer` 缺失问题
+
 **2016-3-12**
 
 - 修复chrome升级49版本后localhost地址获取问题，[原因](https://developers.google.com/web/updates/2016/02/chrome-49-deprecations?hl=en#error-and-success-handlers-required-in-rtcpeerconnection-methods)
