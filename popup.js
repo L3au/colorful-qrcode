@@ -1,3 +1,16 @@
+// polyfill Promise.defer
+Promise.defer = Promise.defer || function () {
+    var defer = {};
+    var promise = new Promise(function (resolve, reject) {
+        defer.resolve = resolve;
+        defer.reject = reject;
+    });
+
+    defer.promise = promise;
+
+    return defer;
+};
+
 // 获取本地局域网IP
 function getLocalIPs() {
     var ips   = [];
