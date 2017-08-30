@@ -55,6 +55,7 @@ chrome.tabs.query({
     var txt = qr.querySelector('textarea');
     var img, qrcode, localIp;
 
+
     txt.value = url;
 
     // get storage options
@@ -114,10 +115,23 @@ chrome.tabs.query({
             correctLevel: QRCode.CorrectLevel.L
         });
 
-        qr.querySelector('canvas').remove();
 
+       
+//        $('#qr').qrcode({    
+//        	render: "canvas",
+//            text: text,    
+//            width: 240,         
+//            height: 240,     
+//            typeNumber: -1,       
+//            background: "#ffffff",   
+//            foreground: color,
+//            src: "img/main.png"
+//        });  
+        
+        qr.querySelector('canvas').remove();
+        
         img = qr.querySelector('img');
-        img.addEventListener('click', showInput);
+        qr.addEventListener('click', showInput);
     });
 
     document.addEventListener('keypress', function (e) {
@@ -133,10 +147,13 @@ chrome.tabs.query({
         // prevent new line
         e.preventDefault();
 
+        var inside = document.getElementById("in");
         if (img.classList.contains('hide')) {
             showMain();
+            inside.style.display ="block";
         } else {
             showInput();
+            inside.style.display ="none";
         }
     });
 
