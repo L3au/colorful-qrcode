@@ -58,11 +58,22 @@
         border-color: #1ABC9C;
     }
     
+    #in{
+    	position:absolute; 
+    	left:96px; 
+    	top:96px;
+    }
+    
+    #inside{
+    	width:48px; 
+    	height:48px;
+    }
+    
 </style>
 <div id="qr">
     <textarea id="txt" placeholder="输入文字后回车生成"></textarea>
-    <div id="in" style="position:absolute; left:96px; top:96px;">
-    	<img id="inside" src="img/inside.jpg" width="48px" height="48px"/>
+    <div id="in" style="">
+    	<img id="inside" src="img/inside.jpg" />
     </div>
 </div>
 <script src="lib/qrcode.min.js"></script>
