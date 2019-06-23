@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "colorful-qrcode",
+  "version": "1.0.0",
+  "description": "Simple & colorful QR code generator with chrome extension",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "license": "MIT",
+  "author": "L3au <leshu.lau@gmail.com>",
+  "scripts": {}
+}
