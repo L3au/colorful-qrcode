@@ -1,54 +1,54 @@
-# 重构计划：TypeScript + Manifest V3
+# Refactoring Plan: TypeScript + Manifest V3
 
-> 给下一个 Claude Code session 的上下文。直接说"按照 PLAN.md 开始执行 Phase X"即可。
+> Context for the next Claude Code session. Just say "follow PLAN.md and start from Phase X".
 
-## 决策已确认（无需再讨论）
+## Confirmed Decisions (no further discussion needed)
 
-| 决策点 | 结论 |
+| Decision | Choice |
 |---|---|
-| 扩展框架 | **WXT**（Vite + TypeScript + Chrome/Firefox + MV3） |
-| 包管理器 | pnpm |
-| 测试框架 | Vitest（jsdom 环境） |
-| Lint / Format | ESLint + @typescript-eslint + Prettier（tabWidth=4） |
-| QR 库 | `qrcode`（soldair，npm）替换vendored `qrcodejs` |
-| 随机色库 | `randomcolor`（npm）替换 vendored 版本 |
-| 浏览器 API | `browser.*`（WXT 内置 webextension-polyfill） |
-| CI 发布方式 | GitHub Release + 手动上传到 Chrome Web Store / Firefox AMO |
-| Options 保存确认 | 移除 `alert()`，直接保存，无需确认提示 |
+| Extension framework | **WXT** (Vite + TypeScript + Chrome/Firefox + MV3) |
+| Package manager | pnpm |
+| Test framework | Vitest (jsdom environment) |
+| Lint / Format | ESLint + @typescript-eslint + Prettier (tabWidth=4) |
+| QR library | `qrcode` (soldair, npm) — replaces vendored `qrcodejs` |
+| Color library | `randomcolor` (npm) — replaces vendored version |
+| Browser API | `browser.*` (webextension-polyfill via WXT) |
+| CI release | GitHub Release + manual upload to Chrome Web Store / Firefox AMO |
+| Options save UX | Remove `alert()`, save silently with no confirmation |
 
 ---
 
-## 当前代码的关键迁移点
+## Key Migration Notes
 
-1. **QR 库 API 变化（最重要）**
-   - 旧：`new QRCode(element, { colorDark, correctLevel: QRCode.CorrectLevel.L })` → 同步，DOM 副作用，需手动删 canvas
-   - 新：`await QRCode.toDataURL(text, { color: { dark }, errorCorrectionLevel: 'L' })` → 异步，返回 data URL，无 DOM 副作用
+1. **QR library API change (most impactful)**
+   - Old: `new QRCode(element, { colorDark, correctLevel: QRCode.CorrectLevel.L })` — synchronous, DOM-mutating, canvas must be removed manually
+   - New: `await QRCode.toDataURL(text, { color: { dark }, errorCorrectionLevel: 'L' })` — async, returns data URL, no DOM side effects
 
-2. **`getLocalIPs()` 简化**
-   - 删除 legacy callback 路径（`createOffer(cb, cb)`，Chrome 49 兼容）
-   - 只保留 Promise API
-   - 新增 1000ms 超时防止 popup 卡死
-   - 补上 `rtc.close()` 修复资源泄漏
+2. **`getLocalIPs()` simplification**
+   - Drop legacy callback path (`createOffer(cb, cb)`, Chrome 49 compat)
+   - Keep Promise API only
+   - Add 1000ms timeout to prevent popup from hanging
+   - Add `rtc.close()` to fix resource leak in original
 
 3. **MV2 → MV3**
    - `browser_action` → `action`
    - `chrome.browserAction` → `browser.action`
-   - background 非持久脚本 → service worker（WXT 的 `defineBackground()` 自动处理）
+   - Non-persistent background script → service worker (WXT's `defineBackground()` handles this automatically)
 
-4. **background.js 的 URL 硬编码**
-   - 旧：`'chrome-extension://' + chrome.runtime.id + '/readme.html'`
-   - 新：`browser.runtime.getURL('/readme.html')`
+4. **Hardcoded URL in background.js**
+   - Old: `'chrome-extension://' + chrome.runtime.id + '/readme.html'`
+   - New: `browser.runtime.getURL('/readme.html')`
 
-5. **LOCAL_HOSTS 补全**
-   - 原数组缺少 `127.0.0.1`，补上
+5. **LOCAL_HOSTS array fix**
+   - Original is missing `127.0.0.1` — add it
 
-6. **storage.ts**
-   - 原代码 `chrome.storage.sync.get(callback)` 无 key 参数，获取全部 storage
-   - 新：传入默认值对象，精确查询，有类型
+6. **storage.ts typed wrapper**
+   - Original calls `chrome.storage.sync.get(callback)` with no key, fetching entire namespace
+   - New: pass defaults object, scoped typed query
 
 ---
 
-## 目标目录结构
+## Target Directory Structure
 
 ```
 colorful-qrcode/
@@ -86,21 +86,21 @@ colorful-qrcode/
 └── .prettierrc
 ```
 
-**删除的文件：** `lib/`、`popup.html`、`popup.js`、`options.html`、`options.js`、`background.js`、`manifest.json`
+**Files to delete:** `lib/`, `popup.html`, `popup.js`, `options.html`, `options.js`, `background.js`, `manifest.json`
 
 ---
 
-## 实施阶段
+## Implementation Phases
 
-### ✅ Phase 0 — 已完成
-- 创建 `CLAUDE.md`（仓库文档）
-- 确定技术选型和实施方案
+### ✅ Phase 0 — Done
+- Created `CLAUDE.md` (repo documentation)
+- Finalized tech stack and migration plan
 
 ---
 
-### Phase 1 — 项目脚手架
+### Phase 1 — Project Scaffolding
 
-创建以下文件：
+Create the following files:
 
 **`package.json`**
 ```json
@@ -196,13 +196,13 @@ module.exports = {
 }
 ```
 
-`.gitignore` 追加：`.output/`、`node_modules/`、`*.zip`、`coverage/`
+Append to `.gitignore`: `.output/`, `node_modules/`, `*.zip`, `coverage/`
 
-**验证：** `pnpm install && pnpm build` 成功
+**Verify:** `pnpm install && pnpm build` succeeds
 
 ---
 
-### Phase 2 — 工具函数
+### Phase 2 — Utility Modules
 
 **`src/utils/storage.ts`**
 ```typescript
@@ -253,7 +253,7 @@ export function getHostname(href: string): string | undefined {
 
 ---
 
-### Phase 3 — 单元测试
+### Phase 3 — Unit Tests
 
 **`vitest.config.ts`**
 ```typescript
@@ -271,15 +271,15 @@ export default defineConfig({
 });
 ```
 
-测试要点：
-- `localIp.test.ts`：mock `RTCPeerConnection`，测试 IP 去重、超时路径、null candidate
-- `storage.test.ts`：mock `browser.storage.sync`，测试默认值、读写行为
+Test coverage:
+- `localIp.test.ts`: mock `RTCPeerConnection` via `vi.stubGlobal`, test IP deduplication, timeout path, null candidate resolution, `getHostname` edge cases
+- `storage.test.ts`: mock `browser.storage.sync`, test defaults returned when storage empty, stored values read correctly, `setOptions` call shape
 
-**验证：** `pnpm test:coverage` 全绿，覆盖率 ≥ 80%
+**Verify:** `pnpm test:coverage` all green, coverage ≥ 80%
 
 ---
 
-### Phase 4 — Background
+### Phase 4 — Background Entrypoint
 
 **`src/entrypoints/background.ts`**
 ```typescript
@@ -297,27 +297,27 @@ export default defineBackground(() => {
 
 ---
 
-### Phase 5 — Options 页面
+### Phase 5 — Options Entrypoint
 
-`src/entrypoints/options/main.ts` 核心改动：
+Key changes in `src/entrypoints/options/main.ts`:
 - `chrome.browserAction` → `browser.action`
-- 使用 `getOptions()` / `setOptions()` 替代直接 storage 调用
-- 移除 `alert()`，直接保存，无确认提示
-- `tab?.id !== undefined` 防御性检查
+- Storage calls → `getOptions()` / `setOptions()`
+- Remove `alert()`, save silently
+- Add `tab?.id !== undefined` guard for Firefox compatibility
 
 ---
 
-### Phase 6 — Popup（最复杂）
+### Phase 6 — Popup Entrypoint (most complex)
 
-`src/entrypoints/popup/main.ts` 核心流程：
+Core flow in `src/entrypoints/popup/main.ts`:
 ```typescript
-// 并行获取 options 和 localIP
+// Fetch options and local IP in parallel
 const [options, ips] = await Promise.all([
     getOptions(),
     isLocalhost ? getLocalIPs() : Promise.resolve([]),
 ]);
 
-// 新 API：异步返回 data URL
+// New API: async data URL
 const dataUrl = await QRCode.toDataURL(text, {
     width: 240,
     color: { dark: color, light: '#ffffff' },
@@ -326,13 +326,13 @@ const dataUrl = await QRCode.toDataURL(text, {
 img.src = dataUrl;
 ```
 
-注意：`showMain()` 必须是 async，要 `await renderQR()` 后再隐藏 textarea。
+Note: `showMain()` must be `async` — must `await renderQR()` before hiding the textarea, otherwise user sees a blank QR frame.
 
 ---
 
-### Phase 7 — CI/CD
+### Phase 7 — CI/CD Workflows
 
-**`.github/workflows/ci.yml`**（PR → master 触发）
+**`.github/workflows/ci.yml`** (triggered on PR → master)
 ```yaml
 name: CI
 on:
@@ -355,7 +355,7 @@ jobs:
         with: { name: coverage, path: coverage/ }
 ```
 
-**`.github/workflows/release.yml`**（push → master 触发）
+**`.github/workflows/release.yml`** (triggered on push → master)
 ```yaml
 name: Release
 on:
@@ -386,17 +386,17 @@ jobs:
 
 ---
 
-### Phase 8 — 静态资源迁移
+### Phase 8 — Asset Migration
 
-- 移至 `public/`：`icon/icon.png`、`icon/icon-black.png`、`readme.html`、`readme.md`、`img/`
-- 删除：`lib/`、`popup.html`、`popup.js`、`options.html`、`options.js`、`background.js`、`manifest.json`
-- 留在仓库根（不部署）：`icon/icon.psd`、`screenshot/`
-- 更新 `CLAUDE.md` 反映新技术栈
+- Move to `public/`: `icon/icon.png`, `icon/icon-black.png`, `readme.html`, `readme.md`, `img/`
+- Delete: `lib/`, `popup.html`, `popup.js`, `options.html`, `options.js`, `background.js`, `manifest.json`
+- Keep at repo root (not deployed): `icon/icon.psd`, `screenshot/`
+- Update `CLAUDE.md` to reflect new tech stack and structure
 
 ---
 
-## 给本地 CLI session 的启动语
+## Kickoff prompt for local CLI session
 
-切换到本地后，对新的 Claude Code session 说：
+After switching to local CLI, tell the new Claude Code session:
 
-> 请阅读 PLAN.md，然后从 Phase 1 开始执行重构。每个 Phase 完成后 commit 一次，然后继续下一个 Phase。
+> Read PLAN.md and start executing from Phase 1. Commit after each phase completes, then move to the next.
