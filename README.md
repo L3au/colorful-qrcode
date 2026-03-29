@@ -8,7 +8,7 @@ A Chrome/Firefox extension that generates colorful QR codes for the current page
 
 - **Colorful by default** — each QR code uses a random dark color
 - **Works offline** — all generation happens locally, no network requests
-- **Localhost detection** — automatically replaces `localhost` with your LAN IP so mobile devices can reach it
+- **Localhost detection** — automatically replaces `localhost` with your LAN IP so mobile devices can reach it (e.g. `http://localhost:3000` → `http://192.168.1.5:3000`)
 - **Editable** — click the QR code (or press Enter) to type custom text, then press Enter again to generate
 
 ## Install
@@ -23,13 +23,12 @@ pnpm install          # Install dependencies
 pnpm dev              # Dev mode with hot reload
 pnpm build            # Production build
 pnpm typecheck        # TypeScript check
-pnpm lint             # ESLint
 pnpm test             # Vitest
 ```
 
 ## Tech Stack
 
-TypeScript · WXT (Vite) · Manifest V3 · Vitest · ESLint · Prettier
+TypeScript · WXT (Vite) · Manifest V3 · Vitest
 
 ## License
 

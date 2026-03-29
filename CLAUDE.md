@@ -6,8 +6,8 @@ This file provides context for AI assistants working in this repository.
 
 **Colorful QRCode** is a Chrome/Firefox browser extension (Manifest V3) that generates colorful QR codes for the current tab's URL or custom user-provided text. It uses randomly generated dark colors. All QR generation happens locally in the browser — no network requests are made.
 
-- **Version:** 1.2.4
-- **Author:** L3au (leshu.lau@gmail.com)
+- **Version:** 2.0.0
+- **Author:** L3au
 - **Chrome Web Store:** Published, offline-capable
 
 ## Repository Structure
@@ -29,13 +29,11 @@ colorful-qrcode/
 │   └── icon/
 │       └── icon.png            # Extension icon
 ├── .github/workflows/
-│   ├── ci.yml                  # PR checks: typecheck, lint, test
+│   ├── ci.yml                  # PR checks: typecheck, test
 │   └── release.yml             # Build zips + GitHub Release on push to master
 ├── wxt.config.ts               # WXT config (manifest fields, srcDir, outDir)
 ├── tsconfig.json               # Extends .wxt/tsconfig.json
 ├── vitest.config.ts            # Vitest + jsdom + v8 coverage
-├── eslint.config.js            # ESLint flat config + typescript-eslint
-├── .prettierrc                 # Prettier (tabWidth=4, singleQuote)
 └── package.json
 ```
 
@@ -48,7 +46,6 @@ colorful-qrcode/
 - **QR library:** `qrcode` (soldair, npm) — async `toDataURL` API
 - **Color library:** `randomcolor` (npm)
 - **Tests:** Vitest + jsdom, v8 coverage (≥80% threshold on `src/utils/`)
-- **Lint/Format:** ESLint (flat config) + typescript-eslint + Prettier (tabWidth=4)
 - **CI/CD:** GitHub Actions (ci.yml on PR, release.yml on push to master)
 
 ## Key Source Files
@@ -73,8 +70,6 @@ pnpm dev:firefox      # Dev mode (Firefox)
 pnpm build            # Production build → .output/chrome-mv3/
 pnpm build:firefox    # Production build → .output/firefox-mv3/
 pnpm typecheck        # TypeScript check
-pnpm lint             # ESLint
-pnpm format           # Prettier
 pnpm test             # Vitest
 pnpm test:coverage    # Vitest with v8 coverage
 ```
@@ -86,25 +81,19 @@ To load the built extension manually:
 
 ## Code Conventions
 
-- **Indentation:** 4 spaces (`.editorconfig` + `.prettierrc`)
+- **Indentation:** 2 spaces (`.editorconfig`)
 - **Line endings:** LF
 - **Encoding:** UTF-8
 - **Quotes:** Single quotes, semicolons
-- **Print width:** 100
 
 ## QR Code Configuration
 
 ```typescript
 const dataUrl = await QRCode.toDataURL(text, {
-    width: 240,
-    color: { dark: color, light: '#ffffff' },
-    errorCorrectionLevel: 'L',  // ~7% error correction
+  width: 240,
+  color: { dark: color, light: '#ffffff' },
 });
 ```
-
-## UI Strings (Chinese)
-
-- `"输入文字后回车生成"` — Placeholder: "Enter text then press return to generate"
 
 ## Branch Conventions
 
