@@ -1,7 +1,7 @@
 import QRCode from 'qrcode';
 import randomColor from 'randomcolor';
 import { getOptions } from '../../utils/storage';
-import { getLocalIPs, getHostname, LOCAL_HOSTS } from '../../utils/localIp';
+import { getLocalIPs, getHostname, LOCAL_HOSTS, replaceLocalhost } from '../../utils/localIp';
 
 const qr = document.getElementById('qr')!;
 const txt = qr.querySelector<HTMLTextAreaElement>('textarea')!;
@@ -39,11 +39,13 @@ async function showMain(url: string, color: string) {
         txt.value = url;
     }
 
-    const hostname = getHostname(text);
-    if (localIp && hostname && LOCAL_HOSTS.includes(hostname)) {
-        text = text.replace(hostname, localIp);
+    // Lazily fetch local IP if user entered a localhost URL in edit mode
+    if (!localIp && LOCAL_HOSTS.includes(getHostname(text) ?? '')) {
+        const ips = await getLocalIPs();
+        if (ips.length > 0) localIp = ips[0];
     }
 
+    text = replaceLocalhost(text, localIp);
     txt.value = text;
     await renderQR(text, color);
 
@@ -76,20 +78,7 @@ async function init() {
         localIp = ips[0];
     }
 
-    // Pre-fetch local IP for non-localhost pages (for edit mode)
-    if (!isLocalhost) {
-        getLocalIPs().then((result) => {
-            if (result.length > 0) localIp = result[0];
-        });
-    }
-
-    let text = url;
-    if (localIp) {
-        const hostname = getHostname(url);
-        if (hostname && LOCAL_HOSTS.includes(hostname)) {
-            text = url.replace(hostname, localIp);
-        }
-    }
+    const text = replaceLocalhost(url, localIp);
     txt.value = text;
 
     await renderQR(text, color);

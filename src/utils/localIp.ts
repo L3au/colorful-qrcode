@@ -7,8 +7,11 @@ export async function getLocalIPs(timeoutMs = 1000): Promise<string[]> {
     return new Promise((resolve) => {
         const ips: string[] = [];
         const rtc = new RTCPeerConnection({ iceServers: [] });
+        let settled = false;
 
         const done = () => {
+            if (settled) return;
+            settled = true;
             rtc.close();
             resolve(ips);
         };
@@ -28,6 +31,15 @@ export async function getLocalIPs(timeoutMs = 1000): Promise<string[]> {
             .then((sdp) => rtc.setLocalDescription(sdp))
             .catch(done);
     });
+}
+
+export function replaceLocalhost(url: string, ip: string | undefined): string {
+    if (!ip) return url;
+    const hostname = getHostname(url);
+    if (hostname && LOCAL_HOSTS.includes(hostname)) {
+        return url.replace(hostname, ip);
+    }
+    return url;
 }
 
 export function getHostname(href: string): string | undefined {
