@@ -4,7 +4,7 @@ This file provides context for AI assistants working in this repository.
 
 ## Project Overview
 
-**Colorful QRCode** is a Chrome/Firefox browser extension (Manifest V3) that generates colorful QR codes for the current tab's URL or custom user-provided text. It uses randomly generated dark colors by default, with an option to use black. All QR generation happens locally in the browser — no network requests are made.
+**Colorful QRCode** is a Chrome/Firefox browser extension (Manifest V3) that generates colorful QR codes for the current tab's URL or custom user-provided text. It uses randomly generated dark colors. All QR generation happens locally in the browser — no network requests are made.
 
 - **Version:** 1.2.4
 - **Author:** L3au (leshu.lau@gmail.com)
@@ -16,25 +16,18 @@ This file provides context for AI assistants working in this repository.
 colorful-qrcode/
 ├── src/
 │   ├── entrypoints/
-│   │   ├── popup/
-│   │   │   ├── index.html      # Popup UI (250×250px)
-│   │   │   ├── main.ts         # QR generation, URL/IP handling, UI modes
-│   │   │   └── style.css       # Popup styles with loading spinner
-│   │   └── options/
-│   │       ├── index.html      # Settings page UI
-│   │       ├── main.ts         # Black color preference, icon switching
-│   │       └── style.css       # Options styles
+│   │   └── popup/
+│   │       ├── index.html      # Popup UI (250×250px)
+│   │       ├── main.ts         # QR generation, URL/IP handling, UI modes
+│   │       └── style.css       # Popup styles with loading spinner
 │   └── utils/
-│       ├── localIp.ts          # WebRTC LAN IP detection with timeout
-│       └── storage.ts          # Typed wrapper for browser.storage.sync
+│       └── localIp.ts          # WebRTC LAN IP detection with timeout
 ├── tests/
 │   └── utils/
-│       ├── localIp.test.ts
-│       └── storage.test.ts
+│       └── localIp.test.ts
 ├── public/
 │   └── icon/
-│       ├── icon.png            # Colorful icon (default)
-│       └── icon-black.png      # Black icon (black mode)
+│       └── icon.png            # Extension icon
 ├── .github/workflows/
 │   ├── ci.yml                  # PR checks: typecheck, lint, test
 │   └── release.yml             # Build zips + GitHub Release on push to master
@@ -64,22 +57,12 @@ colorful-qrcode/
 The core of the extension:
 - Queries the active tab URL via `browser.tabs.query`
 - Detects localhost addresses and replaces them with the LAN IP
-- Generates QR via `QRCode.toDataURL()` with random dark color (or black)
+- Generates QR via `QRCode.toDataURL()` with random dark color
 - Two UI modes: **view mode** (QR image) and **edit mode** (textarea)
 - Enter toggles modes; Shift+Enter/Ctrl+Enter inserts newlines
 
-### src/entrypoints/options/main.ts
-Reads/writes `isBlack` via typed `getOptions()`/`setOptions()`. Updates icon via `browser.action.setIcon`. Saves silently (no alert) and closes tab.
-
-### src/utils/storage.ts
-Typed wrapper around `browser.storage.sync` with defaults:
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `isBlack` | boolean | `false` | Use black instead of random dark color |
-
 ### src/utils/localIp.ts
-WebRTC-based LAN IP detection with 1000ms timeout. Exports `LOCAL_HOSTS` array (includes `localhost`, `127.0.0.1`, `127.0.0.0`, `0.0.0.0`), `getLocalIPs()`, and `getHostname()`.
+WebRTC-based LAN IP detection with 1000ms timeout. Exports `LOCAL_HOSTS` array (includes `localhost`, `127.0.0.1`, `127.0.0.0`, `0.0.0.0`), `getLocalIPs()`, `getHostname()`, and `replaceLocalhost()`.
 
 ## Development Workflow
 
@@ -108,7 +91,6 @@ To load the built extension manually:
 - **Encoding:** UTF-8
 - **Quotes:** Single quotes, semicolons
 - **Print width:** 100
-- **Comments:** Mixed English and Chinese (targets Chinese users)
 
 ## QR Code Configuration
 
@@ -123,7 +105,6 @@ const dataUrl = await QRCode.toDataURL(text, {
 ## UI Strings (Chinese)
 
 - `"输入文字后回车生成"` — Placeholder: "Enter text then press return to generate"
-- `"其实...我还是喜欢黑色的(﹁\"﹁)"` — Options label: "Actually... I still prefer black"
 
 ## Branch Conventions
 

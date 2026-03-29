@@ -1,6 +1,5 @@
 import QRCode from 'qrcode';
 import randomColor from 'randomcolor';
-import { getOptions } from '../../utils/storage';
 import { getLocalIPs, getHostname, LOCAL_HOSTS, replaceLocalhost } from '../../utils/localIp';
 
 const qr = document.getElementById('qr')!;
@@ -65,12 +64,8 @@ async function init() {
         qr.classList.add('loading');
     }
 
-    const [options, ips] = await Promise.all([
-        getOptions(),
-        isLocalhost ? getLocalIPs() : Promise.resolve([]),
-    ]);
-
-    const color = options.isBlack ? '#000000' : randomColor({ luminosity: 'dark' });
+    const ips = isLocalhost ? await getLocalIPs() : [];
+    const color = randomColor({ luminosity: 'dark' });
 
     qr.classList.remove('loading');
 

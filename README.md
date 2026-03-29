@@ -10,7 +10,6 @@ A Chrome/Firefox extension that generates colorful QR codes for the current page
 - **Works offline** — all generation happens locally, no network requests
 - **Localhost detection** — automatically replaces `localhost` with your LAN IP so mobile devices can reach it
 - **Editable** — click the QR code (or press Enter) to type custom text, then press Enter again to generate
-- **Black mode** — prefer classic? Toggle it in the extension options
 
 ## Install
 

@@ -5,7 +5,7 @@ export default defineConfig({
         name: 'Colorful QRCode',
         version: '1.2.4',
         description: 'simple & colorful QR code generator',
-        permissions: ['tabs', 'storage'],
+        permissions: ['tabs'],
         action: {
             default_title: 'Colorful QRCode',
             default_icon: 'icon/icon.png',
