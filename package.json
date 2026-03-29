@@ -1,0 +1,35 @@
+{
+  "name": "colorful-qrcode",
+  "version": "1.2.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.3",
+    "randomcolor": "^0.6.2"
+  },
+  "devDependencies": {
+    "wxt": "latest",
+    "@types/qrcode": "^1.5.5",
+    "@types/randomcolor": "^0.5.3",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "prettier": "^3.0.0"
+  }
+}
