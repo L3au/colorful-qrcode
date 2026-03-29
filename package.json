@@ -11,7 +11,7 @@
         "zip": "wxt zip",
         "zip:firefox": "wxt zip -b firefox",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint src --ext .ts",
+        "lint": "eslint src",
         "format": "prettier --write src",
         "test": "vitest run",
         "test:coverage": "vitest run --coverage",
@@ -22,15 +22,15 @@
         "randomcolor": "^0.6.2"
     },
     "devDependencies": {
+        "@eslint/js": "^9.39.4",
         "@types/qrcode": "^1.5.5",
         "@types/randomcolor": "^0.5.3",
-        "@typescript-eslint/eslint-plugin": "^7.0.0",
-        "@typescript-eslint/parser": "^7.0.0",
         "@vitest/coverage-v8": "^2.0.0",
         "eslint": "^8.0.0",
         "jsdom": "^29.0.1",
         "prettier": "^3.0.0",
         "typescript": "^5.4.0",
+        "typescript-eslint": "^8.57.2",
         "vitest": "^2.0.0",
         "wxt": "latest"
     }

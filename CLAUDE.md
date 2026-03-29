@@ -20,7 +20,6 @@ colorful-qrcode/
 │   │   │   ├── index.html      # Popup UI (250×250px)
 │   │   │   ├── main.ts         # QR generation, URL/IP handling, UI modes
 │   │   │   └── style.css       # Popup styles with loading spinner
-│   │   ├── background.ts       # Service worker: open readme on install/update
 │   │   └── options/
 │   │       ├── index.html      # Settings page UI
 │   │       ├── main.ts         # Black color preference, icon switching
@@ -33,22 +32,18 @@ colorful-qrcode/
 │       ├── localIp.test.ts
 │       └── storage.test.ts
 ├── public/
-│   ├── icon/icon.png           # Colorful icon (default)
-│   ├── icon/icon-black.png     # Black icon (black mode)
-│   ├── readme.html             # User-facing docs (opens on install)
-│   ├── readme.md               # User-facing docs (Markdown)
-│   └── img/                    # In-readme screenshots
+│   └── icon/
+│       ├── icon.png            # Colorful icon (default)
+│       └── icon-black.png      # Black icon (black mode)
 ├── .github/workflows/
 │   ├── ci.yml                  # PR checks: typecheck, lint, test
 │   └── release.yml             # Build zips + GitHub Release on push to master
 ├── wxt.config.ts               # WXT config (manifest fields, srcDir, outDir)
 ├── tsconfig.json               # Extends .wxt/tsconfig.json
 ├── vitest.config.ts            # Vitest + jsdom + v8 coverage
-├── .eslintrc.cjs               # ESLint + @typescript-eslint
+├── eslint.config.js            # ESLint flat config + typescript-eslint
 ├── .prettierrc                 # Prettier (tabWidth=4, singleQuote)
-├── package.json
-├── icon/icon.psd               # Photoshop source (not deployed)
-└── screenshot/                 # Chrome Web Store screenshots (not deployed)
+└── package.json
 ```
 
 ## Tech Stack
@@ -60,7 +55,7 @@ colorful-qrcode/
 - **QR library:** `qrcode` (soldair, npm) — async `toDataURL` API
 - **Color library:** `randomcolor` (npm)
 - **Tests:** Vitest + jsdom, v8 coverage (≥80% threshold on `src/utils/`)
-- **Lint/Format:** ESLint + @typescript-eslint + Prettier (tabWidth=4)
+- **Lint/Format:** ESLint (flat config) + typescript-eslint + Prettier (tabWidth=4)
 - **CI/CD:** GitHub Actions (ci.yml on PR, release.yml on push to master)
 
 ## Key Source Files
@@ -72,9 +67,6 @@ The core of the extension:
 - Generates QR via `QRCode.toDataURL()` with random dark color (or black)
 - Two UI modes: **view mode** (QR image) and **edit mode** (textarea)
 - Enter toggles modes; Shift+Enter/Ctrl+Enter inserts newlines
-
-### src/entrypoints/background.ts
-Service worker. Opens `readme.html` on install or update via `browser.runtime.getURL`.
 
 ### src/entrypoints/options/main.ts
 Reads/writes `isBlack` via typed `getOptions()`/`setOptions()`. Updates icon via `browser.action.setIcon`. Saves silently (no alert) and closes tab.
