@@ -2,7 +2,11 @@
 
 A Chrome/Firefox extension that generates colorful QR codes for the current page URL or custom text. Colors are randomly generated dark shades — no two scans look the same.
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nenelpicledkmgnlaibhjkjobffpjoan)](https://chrome.google.com/webstore/detail/nenelpicledkmgnlaibhjkjobffpjoan/)
+## Screenshots
+
+| QR Code with favicon logo | Edit mode | Localhost → LAN IP |
+|:---:|:---:|:---:|
+| ![QR Code](public/screenshot/qrcode.png) | ![Edit mode](public/screenshot/input.png) | ![Localhost detection](public/screenshot/localhost.png) |
 
 ## Features
 
