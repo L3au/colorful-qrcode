@@ -6,7 +6,7 @@ This file provides context for AI assistants working in this repository.
 
 **Colorful QRCode** is a Chrome/Firefox browser extension (Manifest V3) that generates colorful QR codes for the current tab's URL or custom user-provided text. It uses randomly generated dark colors. All QR generation happens locally in the browser — no network requests are made.
 
-- **Version:** 2.0.0
+- **Version:** 2.1.0
 - **Author:** L3au
 - **Chrome Web Store:** Published, offline-capable
 

@@ -16,6 +16,8 @@ A Chrome/Firefox extension that generates colorful QR codes for the current page
 ## Install
 
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/nenelpicledkmgnlaibhjkjobffpjoan/)
+- [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/colorful-qrcode/)
+- [GitHub Releases](https://github.com/L3au/colorful-qrcode/releases) — download `.zip` and load manually
 - Or build from source: `pnpm install && pnpm build`, then load `.output/chrome-mv3/` as an unpacked extension
 
 ## Development
