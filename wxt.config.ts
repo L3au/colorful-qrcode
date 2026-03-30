@@ -10,10 +10,12 @@ export default defineConfig({
       default_title: 'Colorful QRCode',
       default_icon: 'icon/icon.png',
     },
-    icons: { '128': 'icon/icon.png' },
+    icons: { '128': 'icon/icon.png', '256': 'icon/icon-256.png' },
     browser_specific_settings: {
       gecko: {
         id: 'colorful-qrcode@l3au',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...({ data_collection_permissions: { required: ['none'], optional: [] } } as any),
       },
     },
   },
