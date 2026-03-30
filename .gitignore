@@ -1,2 +1,8 @@
 .DS_Store
 .idea/
+.wxt/
+.output/
+node_modules/
+*.zip
+coverage/
+.claude/

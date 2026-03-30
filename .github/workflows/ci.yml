@@ -1,0 +1,18 @@
+name: CI
+on:
+  pull_request:
+    branches: [master]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with: { version: latest }
+      - uses: actions/setup-node@v6
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test:coverage
+      - uses: actions/upload-artifact@v7
+        with: { name: coverage, path: coverage/ }

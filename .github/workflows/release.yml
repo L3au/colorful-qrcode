@@ -1,0 +1,25 @@
+name: Release
+on:
+  push:
+    branches: [master]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
+        with: { version: latest }
+      - uses: actions/setup-node@v6
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm zip
+      - run: pnpm zip:firefox
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          files: .output/*.zip
+          generate_release_notes: true
