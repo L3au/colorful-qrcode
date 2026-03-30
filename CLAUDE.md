@@ -6,7 +6,7 @@ This file provides context for AI assistants working in this repository.
 
 **Colorful QRCode** is a Chrome/Firefox browser extension (Manifest V3) that generates colorful QR codes for the current tab's URL or custom user-provided text. It uses randomly generated dark colors. All QR generation happens locally in the browser — no network requests are made.
 
-- **Version:** 2.0.0
+- **Version:** 2.1.0
 - **Author:** L3au
 - **Chrome Web Store:** Published, offline-capable
 
@@ -43,7 +43,7 @@ colorful-qrcode/
 - **Framework:** WXT (Vite-based browser extension framework)
 - **Extension API:** Manifest V3 + `browser.*` (webextension-polyfill via WXT)
 - **Package manager:** pnpm
-- **QR library:** `qrcode` (soldair, npm) — async `toDataURL` API
+- **QR library:** `qrcode` (soldair, npm) — `toCanvas` API with HiDPI support
 - **Color library:** `randomcolor` (npm)
 - **Tests:** Vitest + jsdom, v8 coverage (≥80% threshold on `src/utils/`)
 - **CI/CD:** GitHub Actions (ci.yml on PR, release.yml on push to master)
@@ -54,7 +54,8 @@ colorful-qrcode/
 The core of the extension:
 - Queries the active tab URL via `browser.tabs.query`
 - Detects localhost addresses and replaces them with the LAN IP
-- Generates QR via `QRCode.toDataURL()` with random dark color
+- Generates QR via `QRCode.toCanvas()` with random dark color and HiDPI rendering
+- Overlays the current site's favicon as a center logo (uses error correction level H)
 - Two UI modes: **view mode** (QR image) and **edit mode** (textarea)
 - Enter toggles modes; Shift+Enter/Ctrl+Enter inserts newlines
 
@@ -89,11 +90,15 @@ To load the built extension manually:
 ## QR Code Configuration
 
 ```typescript
-const dataUrl = await QRCode.toDataURL(text, {
-  width: 240,
+await QRCode.toCanvas(canvas, text, {
+  width: renderSize,        // QR_SIZE * devicePixelRatio
+  margin: 0,
   color: { dark: color, light: '#ffffff' },
+  errorCorrectionLevel: 'H', // only when favicon logo is shown
 });
 ```
+
+When a favicon is available, the site logo (48×48px) is drawn at the center of the QR code with a white background pad. Error correction level H (~30%) ensures scannability despite the logo overlay. If the data is too long for level H, the logo is dropped and the default level M is used instead.
 
 ## Branch Conventions
 
