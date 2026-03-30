@@ -18,7 +18,15 @@ jobs:
       - run: pnpm zip:firefox
       - id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - id: check_tag
+        run: |
+          if git ls-remote --tags origin "v${{ steps.version.outputs.version }}" | grep -q .; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       - uses: softprops/action-gh-release@v2
+        if: steps.check_tag.outputs.exists == 'false'
         with:
           tag_name: v${{ steps.version.outputs.version }}
           files: .output/*.zip
