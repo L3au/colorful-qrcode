@@ -13,6 +13,7 @@ Colorful QRCode generates a unique, colorful QR code every time you click the ic
 Features:
 • Instant QR code for the current page URL
 • Random dark color on every open — always unique
+• Site favicon displayed as a center logo on the QR code
 • Click the QR code to edit text and generate a custom code
 • Localhost URLs are automatically replaced with your LAN IP — perfect for testing on mobile devices
 • Works completely offline — no data leaves your browser
@@ -37,6 +38,7 @@ Colorful QRCode generates a unique, colorful QR code every time you click the ic
 Features:
 • Instant QR code for the current page URL
 • Random dark color on every open — always unique
+• Site favicon displayed as a center logo on the QR code
 • Click the QR code to edit text and generate a custom code
 • Localhost URLs are automatically replaced with your LAN IP — perfect for testing on mobile devices
 • Works completely offline — no data leaves your browser
