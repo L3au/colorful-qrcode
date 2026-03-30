@@ -3,7 +3,7 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   manifest: {
     name: 'Colorful QRCode',
-    version: '2.0.0',
+    version: '2.1.0',
     description: 'simple & colorful QR code generator',
     permissions: ['tabs'],
     action: {
