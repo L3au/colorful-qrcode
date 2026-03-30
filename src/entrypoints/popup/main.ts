@@ -8,7 +8,7 @@ import {
 } from '../../utils/localIp';
 
 const QR_SIZE = 240;
-const LOGO_SIZE = 40;
+const LOGO_SIZE = 48;
 
 const qr = document.getElementById('qr')!;
 const txt = qr.querySelector<HTMLTextAreaElement>('textarea')!;
@@ -29,29 +29,41 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 async function renderQR(text: string, color: string): Promise<void> {
   const dpr = window.devicePixelRatio || 1;
   const renderSize = Math.round(QR_SIZE * dpr);
-  const logoSize = Math.round(LOGO_SIZE * dpr);
 
   const canvas = document.createElement('canvas');
   canvas.width = renderSize;
   canvas.height = renderSize;
 
-  await QRCode.toCanvas(canvas, text, {
+  let showLogo = !!faviconUrl;
+
+  const opts = {
     width: renderSize,
     margin: 0,
     color: { dark: color, light: '#ffffff' },
-    errorCorrectionLevel: faviconUrl ? 'H' : 'L',
-  });
+  };
 
-  if (faviconUrl) {
+  if (showLogo) {
+    try {
+      await QRCode.toCanvas(canvas, text, { ...opts, errorCorrectionLevel: 'H' as const });
+    } catch {
+      // Data too long for level H — fall back to default without logo
+      showLogo = false;
+      await QRCode.toCanvas(canvas, text, opts);
+    }
+  } else {
+    await QRCode.toCanvas(canvas, text, opts);
+  }
+
+  if (showLogo && faviconUrl) {
     try {
       const logo = await loadImage(faviconUrl);
       const ctx = canvas.getContext('2d')!;
-      const x = (renderSize - logoSize) / 2;
-      const y = (renderSize - logoSize) / 2;
+      const x = (renderSize - LOGO_SIZE) / 2;
+      const y = (renderSize - LOGO_SIZE) / 2;
       const pad = Math.round(2 * dpr);
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2);
-      ctx.drawImage(logo, x, y, logoSize, logoSize);
+      ctx.fillRect(x - pad, y - pad, LOGO_SIZE + pad * 2, LOGO_SIZE + pad * 2);
+      ctx.drawImage(logo, x, y, LOGO_SIZE, LOGO_SIZE);
     } catch {
       // Favicon failed to load — show QR without logo
     }
@@ -104,17 +116,11 @@ async function init() {
 
   txt.value = url;
   faviconUrl = tab?.favIconUrl ?? undefined;
+  qr.classList.add('loading');
 
   const isLocalhost = LOCAL_HOSTS.includes(getHostname(url) ?? '');
-
-  if (isLocalhost) {
-    qr.classList.add('loading');
-  }
-
   const ips = isLocalhost ? await getLocalIPs() : [];
   const color = randomColor({ luminosity: 'dark' });
-
-  qr.classList.remove('loading');
 
   if (ips.length > 0) {
     localIp = ips[0];
@@ -124,6 +130,7 @@ async function init() {
   txt.value = text;
 
   await renderQR(text, color);
+  qr.classList.remove('loading');
 
   document.addEventListener('keypress', (e) => {
     if (e.key !== 'Enter') return;

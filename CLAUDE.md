@@ -94,11 +94,11 @@ await QRCode.toCanvas(canvas, text, {
   width: renderSize,        // QR_SIZE * devicePixelRatio
   margin: 0,
   color: { dark: color, light: '#ffffff' },
-  errorCorrectionLevel: faviconUrl ? 'H' : 'L',
+  errorCorrectionLevel: 'H', // only when favicon logo is shown
 });
 ```
 
-When a favicon is available, the site logo (40×40px) is drawn at the center of the QR code with a white background pad. Error correction level H (~30%) ensures scannability despite the logo overlay.
+When a favicon is available, the site logo (48×48px) is drawn at the center of the QR code with a white background pad. Error correction level H (~30%) ensures scannability despite the logo overlay. If the data is too long for level H, the logo is dropped and the default level M is used instead.
 
 ## Branch Conventions
 
